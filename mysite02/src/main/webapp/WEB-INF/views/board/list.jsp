@@ -41,9 +41,12 @@
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<td><a
-								href="${pageContext.servletContext.contextPath }/board?a=viewform"
-								class="del">삭제</a></td>
+
+							<td><c:if test="${authUser.name == vo.name }">
+									<a
+										href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no }"
+										class="del">삭제</a>
+								</c:if></td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -62,10 +65,13 @@
 				</div>
 				<!-- pager 추가 -->
 
-				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=writeform"
-						id="new-book">글쓰기</a>
-				</div>
+				<c:if test="${not empty authUser }">
+					<div class="bottom">
+						<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no }"
+							id="new-book">글쓰기</a>
+					</div>
+				</c:if>
+
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">

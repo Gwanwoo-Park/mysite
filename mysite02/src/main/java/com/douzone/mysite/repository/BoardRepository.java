@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.douzone.mysite.vo.BoardVo;
-import com.douzone.mysite.vo.GuestbookVo;
 
 public class BoardRepository {
 	
@@ -68,9 +67,10 @@ public class BoardRepository {
 			conn = getConnection();
 
 			String sql = 
-					"select board.no, title, contents, hit, reg_date, g_no, o_no, depth, user_no, name" + 
-					"  from board, user" + 
-					" where board.user_no = user.no";
+					"   select board.no, title, contents, hit, reg_date, g_no, o_no, depth, user_no, name" + 
+					"     from board, user" + 
+					"    where board.user_no = user.no" + 
+					" group by g_no desc, o_no asc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -123,7 +123,7 @@ public class BoardRepository {
 		return result;
 	}
 	
-	public boolean insert(GuestbookVo vo) {
+	public boolean insert(Long no, String title, String contents) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -133,14 +133,13 @@ public class BoardRepository {
 			conn = getConnection();
 
 			String sql = 
-					" insert" + 
-					"   into guestbook" + 
-					" values(null, ?, ?, ?, now())";
+					"insert into board" + 
+					"     values (null, ?, ?, 0, now(), 1, 1, 0, ?)";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setString(3, vo.getPassword());
+			pstmt.setString(1, title);
+			pstmt.setString(2, contents);
+			pstmt.setLong(3, no);
 
 			int count = pstmt.executeUpdate();
 			result = count == 1;
@@ -162,7 +161,7 @@ public class BoardRepository {
 		return result;
 	}
 	
-	public boolean delete(GuestbookVo vo) {
+	public boolean delete(Long no) {
 		boolean result = false;
 
 		Connection conn = null;
@@ -172,10 +171,10 @@ public class BoardRepository {
 			conn = getConnection();
 
 			String sql = 
-					"delete from guestbook where no = ?";
+					"delete from board where no = ?";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setLong(1, vo.getNo());
+			pstmt.setLong(1, no);
 
 			int count = pstmt.executeUpdate();
 			result = count == 1;

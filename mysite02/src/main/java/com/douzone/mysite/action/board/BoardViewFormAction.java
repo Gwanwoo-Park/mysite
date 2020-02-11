@@ -20,6 +20,7 @@ public class BoardViewFormAction implements Action {
 		String title = request.getParameter("title");
 		
 		String contents = new BoardRepository().findContents(no);
+		
 		request.setAttribute("contents", contents);
 		request.setAttribute("title", title);
 		
