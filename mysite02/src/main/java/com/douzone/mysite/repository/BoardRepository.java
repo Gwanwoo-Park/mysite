@@ -17,6 +17,7 @@ public class BoardRepository {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		ResultSet rs = null;
 
 		try {
@@ -30,10 +31,19 @@ public class BoardRepository {
 			pstmt.setLong(1, no);
 
 			rs = pstmt.executeQuery();
-
+			
 			if (rs.next()) {
 				contents = rs.getString(1);
 			}
+			
+			sql = "update board" + 
+				  "   set hit = hit + 1" + 
+				  " where no = ?";
+			
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setLong(1, no);
+			
+			pstmt2.executeUpdate();
 
 		} catch (SQLException e) {
 			System.out.println("Error : " + e);
@@ -70,7 +80,7 @@ public class BoardRepository {
 					"   select board.no, title, contents, hit, reg_date, g_no, o_no, depth, user_no, name" + 
 					"     from board, user" + 
 					"    where board.user_no = user.no" + 
-					" group by g_no desc, o_no asc";
+					" order by g_no desc, o_no asc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -133,8 +143,9 @@ public class BoardRepository {
 			conn = getConnection();
 
 			String sql = 
-					"insert into board" + 
-					"     values (null, ?, ?, 0, now(), 1, 1, 0, ?)";
+					"insert into board" +
+					"     values (null, ?, ?, 0, now(), (select ifnull(max(g_no), 0)" +
+					"       from board a) + 1, 1, 0, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1, title);

@@ -17,10 +17,13 @@ public class BoardViewFormAction implements Action {
 		String tmp = request.getParameter("no");
 		Long no = Long.parseLong(tmp);
 		
+		String name = request.getParameter("name");
+		
 		String title = request.getParameter("title");
 		
 		String contents = new BoardRepository().findContents(no);
 		
+		request.setAttribute("name", name);
 		request.setAttribute("contents", contents);
 		request.setAttribute("title", title);
 		

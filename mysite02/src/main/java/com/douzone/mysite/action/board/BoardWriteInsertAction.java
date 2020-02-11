@@ -20,8 +20,6 @@ public class BoardWriteInsertAction implements Action {
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
 		
-		System.out.println("왜 널이지" + no);
-		
 	    request.setAttribute("title", title);
 	    request.setAttribute("contents", contents);
 	    
