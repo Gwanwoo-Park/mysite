@@ -13,7 +13,7 @@ public class BoardActionFactory extends ActionFactory {
 			case "writeInsert" : return new BoardWriteInsertAction();
 			case "viewform" : return new BoardViewFormAction();
 			case "delete" : return new BoardDeleteAction();
-//			case "insert" : return new GuestbookInsertAdd();
+			case "modifyform" : return new BoardModifyFormAction();
 			default : return new BoardFormAction();
 		}
 	}
