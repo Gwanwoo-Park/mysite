@@ -13,6 +13,50 @@ import com.douzone.mysite.vo.GuestbookVo;
 
 public class BoardRepository {
 	
+	public String findContents(Long no) {
+		String contents = "";
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = 
+					"select contents" + 
+					"  from board" + 
+					" where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, no);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				contents = rs.getString(1);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error : " + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return contents;
+	}
+	
 	public List<BoardVo> findAll() {
 		List<BoardVo> result = new ArrayList<BoardVo>();
 

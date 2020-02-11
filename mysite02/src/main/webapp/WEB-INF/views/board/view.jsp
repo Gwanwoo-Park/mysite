@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% pageContext.setAttribute("newLine", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,15 +21,13 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>제목입니다.</td>
+						<td>${title }</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								내용 1입니다.<br>
-								내용 2입니다.<br>
-								내용 3입니다.
+								${contents }
 							</div>
 						</td>
 					</tr>

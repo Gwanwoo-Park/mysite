@@ -36,7 +36,8 @@
 						<tr>
 							<td>${listCount-status.index }</td>
 							<td style="text-align:left; padding-left:${20*0 }px"><a
-								href="${pageContext.servletContext.contextPath }/board?a=viewform">${vo.title }</a></td>
+								href="${pageContext.servletContext.contextPath }/board?a=viewform&no=${vo.no }&title=${vo.title }">${vo.title }</a>
+								<input type="hidden" name="title" value="${vo.title }"></td>
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
