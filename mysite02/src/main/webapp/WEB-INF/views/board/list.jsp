@@ -57,28 +57,41 @@
 					</c:forEach>
 				</table>
 
-
-<!--  			<c:forEach begin='1' end='${row }' var='r' step='1'>
-					<tr>
-						<c:forEach begin='1' end='${col }' var='c' step='1'>
-							<td>cell(${r }, ${c })</td>
-						</c:forEach>
-					</tr>
-				</c:forEach>
-				-->
-			
-				
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">${listCount }</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:choose>
+							<c:when test="${page == 1 }">
+								<li><a
+									href="${pageContext.servletContext.contextPath }/board?page=${page }">◀</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="${pageContext.servletContext.contextPath }/board?page=${page-1 }">◀</a></li>
+							</c:otherwise>
+						</c:choose>
+						<c:forEach begin='1' end='${listCount }' var='index' step='1'>
+							
+							<c:choose>
+								<c:when test="${index == page }">
+									<li class="selected"><a style="color:red" href="">${index }</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a
+										href="${pageContext.servletContext.contextPath }/board?page=${index }">${index }</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:choose>
+							<c:when test="${page == 1 }">
+								<li><a
+									href="${pageContext.servletContext.contextPath }/board?page=${page }">◀</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="${pageContext.servletContext.contextPath }/board?page=${page+1 }">◀</a></li>
+							</c:otherwise>
+						</c:choose>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
