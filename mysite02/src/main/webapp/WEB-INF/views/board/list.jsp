@@ -35,9 +35,12 @@
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 						<tr>
 							<td>${listCount-status.index }</td>
-							<td style="text-align:left; padding-left:${20*0 }px"><a
-								href="${pageContext.servletContext.contextPath }/board?a=viewform&no=${vo.no }&title=${vo.title }&name=${vo.name }">${vo.title }</a>
-								</td>
+							<td style="text-align:left; padding-left:${20*vo.depth }px">
+								<c:if test="${vo.depth >= 1 }">
+									<img src='/mysite02/assets/images/reply.png'>
+								</c:if> <a
+								href="${pageContext.servletContext.contextPath }/board?a=viewform&no=${vo.no }&title=${vo.title }&name=${vo.name }&oNo=${vo.oNo }&gNo=${vo.gNo }&depth=${vo.depth }">${vo.title }</a>
+							</td>
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
@@ -67,7 +70,8 @@
 
 				<c:if test="${not empty authUser }">
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no }"
+						<a
+							href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no }"
 							id="new-book">글쓰기</a>
 					</div>
 				</c:if>

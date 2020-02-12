@@ -15,7 +15,19 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board?&no=${authUser.no }">
-					<input type = "hidden" name = "a" value="writeInsert">
+					
+					<c:choose>
+							<c:when test='${param.authUserNo ne null}'>
+								<input type = "hidden" name = "a" value="replyAdd">
+								<input type = "hidden" name = "authUserNo" value="${param.authUserNo }">
+								<input type = "hidden" name = "gNo" value="${param.gNo }">
+								<input type = "hidden" name = "depth" value="${param.depth }">
+							</c:when>
+							<c:otherwise>
+								<input type = "hidden" name = "a" value="writeInsert">
+							</c:otherwise>
+					</c:choose>
+	
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -33,7 +45,7 @@
 					</table>
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board">취소</a>
-						<input type="submit" value="등록"></a>
+						<input type="submit" value="등록">
 					</div>
 				</form>
 			</div>
