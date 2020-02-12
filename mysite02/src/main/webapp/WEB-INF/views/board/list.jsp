@@ -17,8 +17,11 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
-					<input type="text" id="kwd" name="kwd" value=""> <input
+				<form id="search_form"
+					action="${pageContext.servletContext.contextPath }/board"
+					method="post">
+					<input type="hidden" name="a" value="searchAdd"> <input
+						type="text" id="kwd" name="kwd" value=""> <input
 						type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -54,10 +57,22 @@
 					</c:forEach>
 				</table>
 
+
+<!--  			<c:forEach begin='1' end='${row }' var='r' step='1'>
+					<tr>
+						<c:forEach begin='1' end='${col }' var='c' step='1'>
+							<td>cell(${r }, ${c })</td>
+						</c:forEach>
+					</tr>
+				</c:forEach>
+				-->
+			
+				
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
+						<li><a href="">${listCount }</a></li>
 						<li><a href="">1</a></li>
 						<li class="selected">2</li>
 						<li><a href="">3</a></li>

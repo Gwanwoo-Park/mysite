@@ -27,12 +27,16 @@ public class BoardReplyAdd implements Action {
 		tmp = request.getParameter("depth");
 		Integer depth = Integer.parseInt(tmp);
 		
+		tmp = request.getParameter("oNo");
+		Integer oNo = Integer.parseInt(tmp);
+		
 		BoardVo vo = new BoardVo();
 		vo.setNo(no);
 		vo.setgNo(gNo);
 		vo.setTitle(title);
 		vo.setContents(contents);
 		vo.setDepth(depth);
+		vo.setoNo(oNo);
 		
 		new BoardRepository().updateParent(vo);
 		

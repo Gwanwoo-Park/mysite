@@ -22,6 +22,7 @@
 								<input type = "hidden" name = "authUserNo" value="${param.authUserNo }">
 								<input type = "hidden" name = "gNo" value="${param.gNo }">
 								<input type = "hidden" name = "depth" value="${param.depth }">
+								<input type = "hidden" name = "oNo" value="${param.oNo }">
 							</c:when>
 							<c:otherwise>
 								<input type = "hidden" name = "a" value="writeInsert">

@@ -16,6 +16,7 @@ public class BoardActionFactory extends ActionFactory {
 			case "modifyform" : return new BoardModifyFormAction();
 			case "modifyAdd" : return new BoardModifyAdd();
 			case "replyAdd" : return new BoardReplyAdd();
+			case "searchAdd" : return new BoardSearchAdd();
 			default : return new BoardFormAction();
 		}
 	}
