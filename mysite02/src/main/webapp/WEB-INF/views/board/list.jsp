@@ -53,6 +53,26 @@
 						<c:set var='limit' value='${5*(param.page-1) }'></c:set>
 					</c:if>
 					
+					<c:choose>
+						<c:when test="${param.page % 5 == 1 }">
+							<c:set var='sibalPage' value='${param.page }'></c:set>
+						</c:when>
+						<c:when test="${param.page == null }">
+							<c:set var='sibalPage' value='1'></c:set>
+						</c:when>
+						<c:when test="${param.page % 5 != 0 }">
+							<c:set var='sibalPage' value='${param.page / 5 + 1 }'></c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var='sibalPage' value='${param.page / 5 }'></c:set>
+						</c:otherwise>
+					</c:choose>
+				
+					
+					<c:if test='${param.page == null}'>
+						<c:set var='sibalPage' value='1'></c:set>
+					</c:if>
+					
 					 
 					<c:forEach begin='${limit }' items='${list }' var='vo' end='${limit + 4}' step='1' varStatus='status'>
 						<tr>
@@ -89,7 +109,7 @@
 							</c:otherwise>
 						</c:choose>
 						
-						<c:forEach begin='1' end='${pageCount }' var='index' step='1'>
+						<c:forEach begin='${sibalPage }' end='${sibalPage + 4 }' var='index' step='1'>
 							<c:choose>
 								<c:when test="${index == page }">
 									<li class="selected"><a style="color:red" href="">${index }</a></li>
