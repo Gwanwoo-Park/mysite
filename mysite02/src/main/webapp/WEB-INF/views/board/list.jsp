@@ -37,8 +37,24 @@
 					<c:set var='listCount' value='${fn:length(list) }' />
 					
 					
+					
+					<c:choose>
+							<c:when test="${listCount % 5 == 0 }">
+								<c:set var='pageCount' value='${listCount / 5 }' />
+							</c:when>
+							<c:otherwise>
+								<c:set var='pageCount' value='${listCount / 5 + 1 }' />
+							</c:otherwise>
+					</c:choose>
+					
+					<c:set var='limit' value='0'></c:set>
+					
+					<c:if test='${param.page ne null && param.page > 1 }'>
+						<c:set var='limit' value='${5*(param.page-1) }'></c:set>
+					</c:if>
+					
 					 
-					<c:forEach items='${list }' var='vo' varStatus='status'>
+					<c:forEach begin='${limit }' items='${list }' var='vo' end='${limit + 4}' step='1' varStatus='status'>
 						<tr>
 							<td>${listCount-status.index }</td>
 							<td style="text-align:left; padding-left:${20*vo.depth }px">
@@ -73,7 +89,7 @@
 							</c:otherwise>
 						</c:choose>
 						
-						<c:forEach begin='1' end='${listCount }' var='index' step='1'>
+						<c:forEach begin='1' end='${pageCount }' var='index' step='1'>
 							<c:choose>
 								<c:when test="${index == page }">
 									<li class="selected"><a style="color:red" href="">${index }</a></li>
@@ -85,7 +101,7 @@
 							</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${page == 5 }">
+							<c:when test="${param.page > pageCount - 1 }">
 								<li><a
 									href="${pageContext.servletContext.contextPath }/board?page=${page }">▶</a></li>
 							</c:when>
