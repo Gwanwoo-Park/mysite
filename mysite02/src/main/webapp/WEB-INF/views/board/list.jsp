@@ -1,6 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,15 +34,17 @@
 						<th>&nbsp;</th>
 					</tr>
 
-					<c:set var='listCount' value='${fn:length(list) }'></c:set>
+					<c:set var='listCount' value='${fn:length(list) }' />
+					
+					
+					 
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 						<tr>
 							<td>${listCount-status.index }</td>
 							<td style="text-align:left; padding-left:${20*vo.depth }px">
 								<c:if test="${vo.depth >= 1 }">
 									<img src='/mysite02/assets/images/reply.png'>
-								</c:if> <a
-								href="${pageContext.servletContext.contextPath }/board?a=viewform&no=${vo.no }&title=${vo.title }&name=${vo.name }&oNo=${vo.oNo }&gNo=${vo.gNo }&depth=${vo.depth }">${vo.title }</a>
+								</c:if> <a href="${pageContext.servletContext.contextPath }/board?a=viewform&no=${vo.no }&title=${vo.title }&name=${vo.name }&oNo=${vo.oNo }&gNo=${vo.gNo }&depth=${vo.depth }">${vo.title }</a>
 							</td>
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
@@ -70,8 +72,8 @@
 									href="${pageContext.servletContext.contextPath }/board?page=${page-1 }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
+						
 						<c:forEach begin='1' end='${listCount }' var='index' step='1'>
-							
 							<c:choose>
 								<c:when test="${index == page }">
 									<li class="selected"><a style="color:red" href="">${index }</a></li>
@@ -83,13 +85,13 @@
 							</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${page == 1 }">
+							<c:when test="${page == 5 }">
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page }">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page+1 }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page+1 }">▶</a></li>
 							</c:otherwise>
 						</c:choose>
 					</ul>

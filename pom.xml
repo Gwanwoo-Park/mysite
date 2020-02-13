@@ -9,7 +9,21 @@
 	
 	<packaging>pom</packaging>
 
+
+
+
+
+
+
+
+
+
 	<modules>
 		<module>mysite02</module>
 	</modules>
+	
+	
+	
+	
+	
 </project>
