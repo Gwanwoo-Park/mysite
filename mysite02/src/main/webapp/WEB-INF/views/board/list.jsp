@@ -53,21 +53,17 @@
 						<c:set var='limit' value='${5*(param.page-1) }'></c:set>
 					</c:if>
 					
+					
 					<c:choose>
 						<c:when test="${param.page % 5 == 1 }">
 							<c:set var='sibalPage' value='${param.page }'></c:set>
 						</c:when>
-						<c:when test="${param.page == null }">
-							<c:set var='sibalPage' value='1'></c:set>
-						</c:when>
-						<c:when test="${param.page % 5 != 0 }">
-							<c:set var='sibalPage' value='${param.page / 5 + 1 }'></c:set>
-						</c:when>
 						<c:otherwise>
-							<c:set var='sibalPage' value='${param.page / 5 }'></c:set>
+							<c:set var='sibalPage' value='${param.sibalPage }'></c:set>
 						</c:otherwise>
 					</c:choose>
-				
+				 
+				 	<fmt:parseNumber var='sibalPage' integerOnly='true' type='number' value='${sibalPage }'></fmt:parseNumber>
 					
 					<c:if test='${param.page == null}'>
 						<c:set var='sibalPage' value='1'></c:set>
@@ -101,11 +97,11 @@
 						<c:choose>
 							<c:when test="${page == 1 }">
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page }&sibalPage=${sibalPage }">◀</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page-1 }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page-1 }&sibalPage=${sibalPage }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 						
@@ -116,18 +112,18 @@
 								</c:when>
 								<c:otherwise>
 									<li><a
-										href="${pageContext.servletContext.contextPath }/board?page=${index }">${index }</a></li>
+										href="${pageContext.servletContext.contextPath }/board?page=${index }&sibalPage=${sibalPage }">${index }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<c:choose>
 							<c:when test="${param.page > pageCount - 1 }">
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page }">▶</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page }&sibalPage=${sibalPage }">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page+1 }">▶</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page+1 }&sibalPage=${sibalPage }">▶</a></li>
 							</c:otherwise>
 						</c:choose>
 					</ul>

@@ -18,20 +18,24 @@ public class BoardFormAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		List<BoardVo> list = new BoardRepository().findAll();
-		
+
 		request.setAttribute("list", list);
 
 		String page = request.getParameter("page");
 		if (page == null) {
 			page = "1";
 		}
-		
+
 		request.setAttribute("page", page);
-		
+
 		HttpSession session = request.getSession();
 		System.out.println(session.getAttribute("authUser"));
-		
-		
+
+		String tmp = request.getParameter("sibalPage");
+		if (tmp == null) {
+			tmp = "1";
+		}
+
 		WebUtil.forward("/WEB-INF/views/board/list.jsp", request, response);
 	}
 }
