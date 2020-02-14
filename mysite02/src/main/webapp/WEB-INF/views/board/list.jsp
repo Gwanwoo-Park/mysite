@@ -62,6 +62,10 @@
 							<c:set var='sibalPage' value='${param.sibalPage }'></c:set>
 						</c:otherwise>
 					</c:choose>
+					
+					<c:if test='${param.page % 5 == 0 && param.past % 5 == 1 }'>
+						<c:set var='sibalPage' value='${param.past }'></c:set>
+					</c:if>
 				 
 				 	<fmt:parseNumber var='sibalPage' integerOnly='true' type='number' value='${sibalPage }'></fmt:parseNumber>
 					
@@ -101,7 +105,7 @@
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?page=${page-1 }&sibalPage=${sibalPage }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page-1 }&sibalPage=${sibalPage }&past=${page-5 }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 						
