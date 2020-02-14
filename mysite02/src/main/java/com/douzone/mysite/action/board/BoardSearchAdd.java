@@ -20,9 +20,18 @@ public class BoardSearchAdd implements Action {
 		
 		List<BoardVo> list = new BoardRepository().findKwd(kwd);
 
+		
+		String page = request.getParameter("page");
+		if (page == null) {
+			page = "1";
+		}
+
+		request.setAttribute("page", page);
+		
+		request.setAttribute("kwd", kwd);
+		
 		request.setAttribute("list", list);
 		
 		WebUtil.forward("/WEB-INF/views/board/list.jsp", request, response);
 	}
-
 }

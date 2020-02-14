@@ -31,11 +31,6 @@ public class BoardFormAction implements Action {
 		HttpSession session = request.getSession();
 		System.out.println(session.getAttribute("authUser"));
 
-		String tmp = request.getParameter("sibalPage");
-		if (tmp == null) {
-			tmp = "1";
-		}
-
 		WebUtil.forward("/WEB-INF/views/board/list.jsp", request, response);
 	}
 }
