@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<groupId>com.douzone</groupId>
 		<artifactId>mysite</artifactId>
@@ -9,18 +10,19 @@
 	</parent>
 	<artifactId>mysite02</artifactId>
 	<packaging>war</packaging>
-
+	
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+	</properties>	
 
 	<dependencies>
-		<!-- Mysql JDBC Driver -->
+		<!-- MariaDB JDBC Driver -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.48</version>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>2.4.4</version>
 		</dependency>
 
 		<!-- jstl -->
@@ -43,11 +45,9 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
-	</dependencies>
-
-
+	</dependencies>	
+	
 	<build>
-
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
@@ -57,7 +57,6 @@
 				</excludes>
 			</resource>
 		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -84,7 +83,16 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>tomcat-maven-plugin</artifactId>
+				<configuration>
+					<url>http://192.168.1.102:8080/manager/text</url>
+					<path>/mysite02</path>
+					<username>admin</username>
+					<password>admin</password>
+				</configuration>
+			</plugin>			
 		</plugins>
-	</build>
-
+	</build>		
 </project>
