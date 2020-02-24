@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.douzone.mysite.vo.GuestbookVo;
 
+@Repository
 public class GuestbookRepository {
 	
 	public String findPassword(Long number) {
@@ -147,6 +150,38 @@ public class GuestbookRepository {
 			}
 		}
 		return result;
+	}
+
+	public void delete(Long no, String password) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = 
+					"delete from guestbook where no = ? and password = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+			pstmt.setString(2, password);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Error : " + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public boolean delete(GuestbookVo vo) {
