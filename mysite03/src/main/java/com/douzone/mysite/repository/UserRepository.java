@@ -114,7 +114,7 @@ public class UserRepository {
 		return userVo;
 	}
 
-	public UserVo findByNo(Long no) {
+	public UserVo find(Long no) {
 		UserVo userVo = null;
 
 		Connection conn = null;

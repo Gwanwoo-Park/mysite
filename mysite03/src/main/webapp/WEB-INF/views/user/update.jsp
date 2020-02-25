@@ -16,14 +16,13 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user">
-					<input type='hidden' name='a' value='update' />
-					<input type='hidden' name='no' value=${authUser.no } />
+				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user/update">
+					<input type='hidden' name='no' value=${userVo.no } />
 					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="">
+					<input id="name" name="name" type="text" value="${userVo.name }">
 
 					<label class="block-label" for="email">이메일</label>
-					<h4>${authUser.email }</h4>
+					<h4>${userVo.email }</h4>
 					
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
@@ -33,7 +32,7 @@
 						
 						
 						<c:choose>
-							<c:when test='${authUser.gender == "female" }'>
+							<c:when test='${userVo.gender == "female" }'>
 								<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
 								<label>남</label> <input type="radio" name="gender" value="male">
 							</c:when>
