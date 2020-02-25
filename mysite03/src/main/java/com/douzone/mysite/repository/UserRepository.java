@@ -32,7 +32,7 @@ public class UserRepository {
 		try {
 			conn = dataSource.getConnection();
 
-			String sql = " inser" + 
+			String sql = " insert" + 
 						 "   into user" + 
 						 " values(null, ?, ?, ?, ?, now())";
 			pstmt = conn.prepareStatement(sql);
