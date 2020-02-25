@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.exception.GuestbookRepositoryException;
@@ -15,6 +17,9 @@ import com.douzone.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
+	
+	@Autowired
+	private SqlSession sqlSession;
 	
 	public String findPassword(Long number) {
 		String password = "";
@@ -61,6 +66,8 @@ public class GuestbookRepository {
 	}
 	
 	public List<GuestbookVo> findAll() {
+//		List<GuestbookVo> list = sqlSession.selectList("guestbook.findAll");
+		
 		List<GuestbookVo> result = new ArrayList<GuestbookVo>();
 
 		Connection conn = null;
@@ -71,7 +78,7 @@ public class GuestbookRepository {
 			conn = getConnection();
 
 			String sql = 
-					"   select no, name, reg_date, contents" + 
+					"   select no, name, contents, reg_date" + 
 					"     from guestbook" + 
 					" order by no desc";
 			pstmt = conn.prepareStatement(sql);
@@ -81,8 +88,8 @@ public class GuestbookRepository {
 			while (rs.next()) {
 				Long no = rs.getLong(1);
 				String name = rs.getString(2);
-				String reg_date = rs.getString(3);
-				String contents = rs.getString(4);
+				String contents = rs.getString(3);
+				String reg_date = rs.getString(4);
 
 				GuestbookVo vo = new GuestbookVo();
 				vo.setNo(no);
