@@ -1,11 +1,14 @@
 package com.douzone.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.exception.UserRepositoryException;
@@ -14,6 +17,12 @@ import com.douzone.mysite.vo.UserVo;
 @Repository
 public class UserRepository {
 
+	@Autowired
+	public DataSource dataSource;
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
 	public int insert(UserVo vo) {
 		int count = 0;
 
@@ -21,7 +30,7 @@ public class UserRepository {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = " inser" + 
 						 "   into user" + 
@@ -52,20 +61,6 @@ public class UserRepository {
 		return count;
 	}
 
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mysql://192.168.1.102:3307/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			throw new UserRepositoryException("드라이버 로딩 실패:" + e);
-		}
-
-		return conn;
-	}
-
 	public UserVo findByEmailAndPassword(UserVo vo) {
 		UserVo userVo = null;
 
@@ -74,7 +69,7 @@ public class UserRepository {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = 
 					"select no, name" + 
@@ -125,7 +120,7 @@ public class UserRepository {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = 
 					"select name, email, gender" + 
@@ -176,7 +171,7 @@ public class UserRepository {
 		ResultSet rs = null;
 
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			String sql = 
 					"update user set name = ?, password = ?, gender = ? where no = ?";
