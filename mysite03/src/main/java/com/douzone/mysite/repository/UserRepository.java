@@ -23,7 +23,7 @@ public class UserRepository {
 		try {
 			conn = getConnection();
 
-			String sql = " insert" + 
+			String sql = " inser" + 
 						 "   into user" + 
 						 " values(null, ?, ?, ?, ?, now())";
 			pstmt = conn.prepareStatement(sql);

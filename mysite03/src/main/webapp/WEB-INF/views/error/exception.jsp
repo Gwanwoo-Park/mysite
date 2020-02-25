@@ -9,8 +9,7 @@
 <body>
 	<h1>Exception Occurs</h1>
 	<p>
-		예외발생!!<br>
-		고쳐라~~
+		${exception }
 	</p>
 </body>
 </html>

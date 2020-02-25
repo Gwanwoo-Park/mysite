@@ -17,11 +17,6 @@
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler />
 
-
-	<context:annotation-config />
-	<context:component-scan
-		base-package="com.douzone.mysite.controller" />
-
 	<!-- ViewResolver 설정 -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -30,5 +25,9 @@
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.douzone.mysite.controller, com.douzone.mysite.exception" />
 
 </beans>
