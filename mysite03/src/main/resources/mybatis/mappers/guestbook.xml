@@ -13,6 +13,7 @@
 		]]>
 	</select>
 	
+	<!-- 
 	<select id="findAll" resultType="guestbookvo" parameterType="long">
 		<![CDATA[
 			 select no,
@@ -27,5 +28,6 @@
 		   	  limit 0, 3
 		]]>
 	</select>
+	 -->
 	
 </mapper>

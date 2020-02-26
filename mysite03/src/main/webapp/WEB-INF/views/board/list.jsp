@@ -145,13 +145,22 @@
 				</div>
 				<!-- pager 추가 -->
 
-				<c:if test="${not empty authUser }">
-					<div class="bottom">
-						<a
-							href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no }"
-							id="new-book">글쓰기</a>
-					</div>
-				</c:if>
+				<c:choose>
+					<c:when test="${not empty authUser }">
+						<div class="bottom">
+							<a
+								href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no }"
+								id="new-book">글쓰기</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="bottom">
+							<a
+								href="${pageContext.request.contextPath }"
+								id="new-book">글쓰기</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
 
 			</div>
 		</div>
