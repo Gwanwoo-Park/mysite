@@ -25,24 +25,35 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>${title }</td>
+						<td>${vo.title }</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
-							<div class="view-content">${contents }</div>
+							<div class="view-content">${vo.contents }</div>
 						</td>
 					</tr>
 				</table>
 
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<c:if test="${authUser.name == name }">
-						<a href="${pageContext.request.contextPath }/board?a=modifyform&no=${param.no }&title=${title }&name=${name }&contents=${contents }">글수정</a>
-					</c:if>
-					<c:if test="${not empty authUser }">
-						<a href="${pageContext.request.contextPath }/board?a=writeform&no=${param.no }&authUserNo=${authUser.no }&oNo=${param.oNo }&gNo=${param.gNo }&depth=${param.depth }">답글달기</a>
-					</c:if>
+					<c:choose>
+						<c:when test="${authUser.no == vo.userNo && authUser.name != null}">
+							<a href="${pageContext.request.contextPath }/board/modify/${vo.no }">글수정</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath }/board">글수정</a>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:choose>
+						<c:when test="${not empty authUser }">
+							<a href="${pageContext.request.contextPath }/board/reply/${vo.no }">답글달기</a>
+						</c:when>
+						<c:otherwise>
+							<a href="${pageContext.request.contextPath }/board">답글달기</a>
+						</c:otherwise>
+					</c:choose>
 				</div>
 
 			</div>

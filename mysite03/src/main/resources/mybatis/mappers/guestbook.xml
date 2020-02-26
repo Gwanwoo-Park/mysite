@@ -7,27 +7,24 @@
 			 select no,
 			 	    name,
 			 	    contents,
-			 	    date_format(reg_date,'%Y-%m-%d %h:%i:%s')as regDate
+			 	    date_format(reg_date,'%Y-%m-%d %h:%i:%s') as regDate
 			   from guestbook
 		   order by no desc
 		]]>
 	</select>
 	
-	<!-- 
-	<select id="findAll" resultType="guestbookvo" parameterType="long">
+	<delete id="delete" parameterType="map">
 		<![CDATA[
-			 select no,
-			 	    name,
-			 	    contents,
-			 	    date_format(reg_date,'%Y-%m-%d %h:%i:%s')as regDate
-			   from guestbook
-			  <if test='_parameter > 0'>
-			  	where no < #{_parameter }
-			  </if>
-		   order by no desc
-		   	  limit 0, 3
+			 delete from guestbook where no = #{no } and password = #{password }
 		]]>
-	</select>
-	 -->
+	</delete>
+	
+	<insert id="insert" parameterType="guestbookvo">
+		<![CDATA[
+			insert
+			  into guestbook
+			values (null, #{name }, #{contents }, #{password }, now())
+		]]>
+	</insert>
 	
 </mapper>

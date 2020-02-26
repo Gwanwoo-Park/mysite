@@ -19,12 +19,31 @@ public class BoardService {
 		
 		return list;
 	}
+	
+	public BoardVo findContents(Long no) {
+		BoardVo vo = boardRepository.findContents(no);
+		
+		return vo;
+	}
 
-//	public void insert(GuestbookVo vo) {
-//		boardRepository.insert(vo);
-//	}
-//
-//	public void delete(Long no, String password) {
-//		boardRepository.delete(no, password);
-//	}
+	public void insert(BoardVo vo) {
+		if(vo.getgNo() == null) {
+			boardRepository.insert(vo);
+		} else boardRepository.insertReply(vo);
+		
+	}
+
+	public void delete(Long no) {
+		boardRepository.delete(no);
+	}
+
+	public void modify(BoardVo vo) {
+		boardRepository.modify(vo);
+	}
+
+	public BoardVo find(Long no) {
+		BoardVo vo = boardRepository.find(no);
+		
+		return vo;
+	}
 }

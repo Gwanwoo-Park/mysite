@@ -14,21 +14,12 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board?&no=${authUser.no }">
-					
-					<c:choose>
-							<c:when test='${param.authUserNo ne null}'>
-								<input type = "hidden" name = "a" value="replyAdd">
-								<input type = "hidden" name = "authUserNo" value="${param.authUserNo }">
-								<input type = "hidden" name = "gNo" value="${param.gNo }">
-								<input type = "hidden" name = "depth" value="${param.depth }">
-								<input type = "hidden" name = "oNo" value="${param.oNo }">
-							</c:when>
-							<c:otherwise>
-								<input type = "hidden" name = "a" value="writeInsert">
-							</c:otherwise>
-					</c:choose>
-	
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+					<input type="hidden" name="no" value="${authUser.no }">
+					<input type="hidden" name="userNo" value="${vo.userNo }">
+					<input type="hidden" name="gNo" value="${vo.gNo }">
+					<input type="hidden" name="oNo" value="${vo.oNo }">
+					<input type="hidden" name="depth" value="${vo.depth }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

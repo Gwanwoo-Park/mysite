@@ -14,27 +14,24 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
-				<input type="hidden" name="a" value="modifyAdd">
-				<input type="hidden" name="no" value="${param.no }">
-				<input type="hidden" name="name" value="${param.name }">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/modify/${vo.no }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
 						</tr>
 						<tr>
 							<td class="label">제목</td>
-							<td><input type="text" name="title" value="${param.title }"></td>
+							<td><input type="text" name="title" value="${vo.title }"></td>
 						</tr>
 						<tr>
 							<td class="label">내용</td>
 							<td>
-								<textarea id="contents" name="contents">${param.contents }</textarea>
+								<textarea id="contents" name="contents">${vo.contents }</textarea>
 							</td>
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?a=viewform&no=${param.no }&name=${param.name }&title=${param.title }">취소</a>
+						<a href="${pageContext.request.contextPath }/board/view/${vo.no }">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>

@@ -90,7 +90,7 @@
 								<c:if test="${vo.depth >= 1 }">
 									<img src='/mysite02/assets/images/reply.png'>
 								</c:if> <a
-								href="${pageContext.servletContext.contextPath }/board?a=viewform&no=${vo.no }&title=${vo.title }&name=${vo.name }&oNo=${vo.oNo }&gNo=${vo.gNo }&depth=${vo.depth }">${vo.title }</a>
+								href="${pageContext.servletContext.contextPath }/board/view/${vo.no }">${vo.title }</a>
 							</td>
 							<td>${vo.name }</td>
 							<td>${vo.hit }</td>
@@ -98,7 +98,7 @@
 
 							<td><c:if test="${authUser.name == vo.name }">
 									<a
-										href="${pageContext.servletContext.contextPath }/board?a=delete&no=${vo.no }"
+										href="${pageContext.servletContext.contextPath }/board/delete/${vo.no }"
 										class="del">삭제</a>
 								</c:if></td>
 						</tr>
@@ -149,7 +149,7 @@
 					<c:when test="${not empty authUser }">
 						<div class="bottom">
 							<a
-								href="${pageContext.request.contextPath }/board?a=writeform&no=${authUser.no }"
+								href="${pageContext.request.contextPath }/board/write"
 								id="new-book">글쓰기</a>
 						</div>
 					</c:when>
