@@ -1,6 +1,7 @@
 package com.douzone.mysite.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
@@ -22,11 +24,15 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@RequestMapping({ "", "list" })
-	public String list(Model model) {
-		List<BoardVo> list = boardService.findAll();
-		model.addAttribute("list", list);
-
+	@RequestMapping( "" )
+	public String list(@RequestParam(value = "page", required = true, defaultValue = "1") int page,
+					   @RequestParam(value = "kwd", required = true, defaultValue = "") String kwd, 
+				       Model model) {
+		
+			Map<String, Object> map = new HashMap<>();
+			map = boardService.findAll(page, kwd);
+			model.addAllAttributes(map);
+			
 		return "board/list";
 	}
 
@@ -73,26 +79,26 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
-	@RequestMapping(value="/modify/{no}", method=RequestMethod.GET)
+	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
 	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
 		BoardVo vo = boardService.findContents(no);
 		model.addAttribute("vo", vo);
-		
+
 		return "board/modify";
 	}
-	
-	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
 	public String modify(HttpSession session, BoardVo vo) {
 		boardService.modify(vo);
-		
+
 		return "redirect:/board";
 	}
-	
-	@RequestMapping(value="/reply/{no}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/reply/{no}", method = RequestMethod.GET)
 	public String reply(HttpSession session, @PathVariable("no") Long no, Model model) {
 		BoardVo vo = boardService.find(no);
 		model.addAttribute("vo", vo);
-		
+
 		return "board/write";
 	}
 }

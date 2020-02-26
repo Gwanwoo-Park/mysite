@@ -18,10 +18,14 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form"
-					action="${pageContext.servletContext.contextPath }/board"
-					method="post">
-					<input type="hidden" name="a" value="searchAdd">
-					<input type="text" id="kwd" name="kwd" value="${kwd }">
+					action="${pageContext.servletContext.contextPath }/board?kwd=${kwd }"
+					method=get>
+					<c:choose>
+						<c:when test=' ${kwd} eq ""  '>
+							
+						</c:when>
+					</c:choose>
+					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -34,61 +38,12 @@
 						<th>&nbsp;</th>
 					</tr>
 
-					<c:set var='listCount' value='${fn:length(list) }' />
-
-					<c:choose>
-						<c:when test="${not empty kwd }">
-							<c:set var='actionName' value='searchAdd' />
-						</c:when>
-						<c:otherwise>
-							<c:set var='actionName' value='list' />
-						</c:otherwise>
-					</c:choose>
-
-
-					<c:choose>
-						<c:when test="${listCount % 5 == 0 }">
-							<c:set var='pageCount' value='${listCount / 5 }' />
-						</c:when>
-						<c:otherwise>
-							<c:set var='pageCount' value='${listCount / 5 + 1 }' />
-						</c:otherwise>
-					</c:choose>
-
-					<c:set var='limit' value='0'></c:set>
-
-					<c:if test='${param.page ne null && param.page > 1 }'>
-						<c:set var='limit' value='${5*(param.page-1) }'></c:set>
-					</c:if>
-
-
-					<c:choose>
-						<c:when test="${param.page % 5 == 1 }">
-							<c:set var='sibalPage' value='${param.page }'></c:set>
-						</c:when>
-						<c:otherwise>
-							<c:set var='sibalPage' value='${param.sibalPage }'></c:set>
-						</c:otherwise>
-					</c:choose>
-
-					<c:if test='${param.page % 5 == 0 && param.past % 5 == 1 }'>
-						<c:set var='sibalPage' value='${param.past }'></c:set>
-					</c:if>
-
-					<fmt:parseNumber var='sibalPage' integerOnly='true' type='number'
-						value='${sibalPage }'></fmt:parseNumber>
-
-					<c:if test='${param.page == null}'>
-						<c:set var='sibalPage' value='1'></c:set>
-					</c:if>
-
-
 					<c:forEach begin='${limit }' items='${list }' var='vo' end='${limit + 4}' step='1' varStatus='status'>
 						<tr>
 							<td>${listCount-status.index }</td>
 							<td style="text-align:left; padding-left:${20*vo.depth }px">
 								<c:if test="${vo.depth >= 1 }">
-									<img src='/mysite02/assets/images/reply.png'>
+									<img src='/mysite03/assets/images/reply.png'>
 								</c:if> <a
 								href="${pageContext.servletContext.contextPath }/board/view/${vo.no }">${vo.title }</a>
 							</td>
@@ -111,11 +66,11 @@
 						<c:choose>
 							<c:when test="${page == 1 }">
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?a=${actionName }&kwd=${kwd }&page=${page }&sibalPage=${sibalPage }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page }&kwd=${kwd }">◀</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?a=${actionName }&kwd=${kwd }&page=${page-1 }&sibalPage=${sibalPage }&past=${page-5 }">◀</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page - 1 }&kwd=${kwd }">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 
@@ -127,18 +82,18 @@
 								</c:when>
 								<c:otherwise>
 									<li><a
-										href="${pageContext.servletContext.contextPath }/board?a=${actionName }&kwd=${kwd }&page=${index }&sibalPage=${sibalPage }">${index }</a></li>
+										href="${pageContext.servletContext.contextPath }/board?page=${index }&kwd=${kwd }">${index }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${param.page > pageCount - 1 }">
+							<c:when test="${page > pageCount - 1 }">
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?a=${actionName }&kwd=${kwd }&page=${page }&sibalPage=${sibalPage }">▶</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page }&kwd=${kwd }">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li><a
-									href="${pageContext.servletContext.contextPath }/board?a=${actionName }&kwd=${kwd }&page=${page+1 }&sibalPage=${sibalPage }">▶</a></li>
+									href="${pageContext.servletContext.contextPath }/board?page=${page + 1 }&kwd=${kwd }">▶</a></li>
 							</c:otherwise>
 						</c:choose>
 					</ul>
