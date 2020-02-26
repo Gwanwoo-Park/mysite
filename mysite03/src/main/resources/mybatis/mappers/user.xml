@@ -4,12 +4,13 @@
 
 	<insert id="insert" parameterType="uservo">
 		<![CDATA[
-		insert
-		  into user
-		values (null, #{name }, #{email }, #{password }, #{gender }, now())
+			insert
+			  into user
+			values (null, #{name }, #{email }, #{password }, #{gender }, now())
 		]]>
 		<selectKey keyProperty="no" resultType="long" order="AFTER">
-			select last_insert_id()
+			select
+			last_insert_id()
 		</selectKey>
 	</insert>
 
@@ -40,4 +41,26 @@
 			 where no = #{no }
 		]]>
 	</select>
+
+	<update id="update" parameterType="uservo">
+		<choose>
+			<when test='password != ""'>
+				<![CDATA[
+				update user
+				   set name = #{name },
+					   password = #{password },
+					   gender = #{gender }
+				 where no = #{no }
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				update user
+				   set name = #{name },
+					   gender = #{gender }
+				 where no = #{no }
+				]]>
+			</otherwise>
+		</choose>
+	</update>
 </mapper>
