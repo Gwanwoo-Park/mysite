@@ -43,7 +43,7 @@
 							<tr>
 								<td>[${listCount-status.index }]</td>
 								<td>${vo.name }</td>
-								<td>${vo.reg_date }</td>
+								<td>${vo.regDate }</td>
 								<td><a href="${pageContext.request.contextPath }/guestbook/delete/${vo.no }">삭제</a></td>
 							</tr>
 							<tr>
