@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
-import com.douzone.mysite.vo.UserVo;
+import com.douzone.security.Auth;
 
 @Controller
 @RequestMapping("/board")
@@ -44,18 +44,13 @@ public class BoardController {
 		return "board/view";
 	}
 
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(HttpSession session) {
-		// 접근제어
-		////////////////////////////////////////////////////////////
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-		////////////////////////////////////////////////////////////
+	public String write() {
 		return "board/write";
 	}
 
+	@Auth
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String write(HttpSession session, BoardVo vo) {
 		boardService.insert(vo);
@@ -63,15 +58,10 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
+	@Auth
 	@RequestMapping(value = "/delete/{no}", method = RequestMethod.GET)
 	public String delete(HttpSession session, @PathVariable("no") Long no, Model model) {
-		// 접근제어
-		////////////////////////////////////////////////////////////
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-		////////////////////////////////////////////////////////////
+		
 		model.addAttribute("no", no);
 
 		boardService.delete(no);
@@ -79,6 +69,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.GET)
 	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
 		BoardVo vo = boardService.findContents(no);
@@ -87,6 +78,7 @@ public class BoardController {
 		return "board/modify";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify/{no}", method = RequestMethod.POST)
 	public String modify(HttpSession session, BoardVo vo) {
 		boardService.modify(vo);
@@ -94,6 +86,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
+	@Auth
 	@RequestMapping(value = "/reply/{no}", method = RequestMethod.GET)
 	public String reply(HttpSession session, @PathVariable("no") Long no, Model model) {
 		BoardVo vo = boardService.find(no);
