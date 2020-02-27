@@ -26,7 +26,7 @@ public class BoardController {
 
 	@RequestMapping( "" )
 	public String list(@RequestParam(value = "page", required = true, defaultValue = "1") int page,
-					   @RequestParam(value = "kwd", required = true, defaultValue = "") String kwd, 
+					   @RequestParam(value = "kwd", required = true, defaultValue = "") String kwd,
 				       Model model) {
 		
 			Map<String, Object> map = new HashMap<>();
