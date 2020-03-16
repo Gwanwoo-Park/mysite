@@ -53,8 +53,9 @@ public class UserController {
 	public String update(@AuthUser UserVo authUser, UserVo userVo) {
 		userVo.setNo(authUser.getNo());
 		userService.updateUser(userVo);
+		authUser.setName(userVo.getName());
 
-		return "redirect:/user/update";
+		return "redirect:/";
 	}
 
 //	@ExceptionHandler(Exception.class)
