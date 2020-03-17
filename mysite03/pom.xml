@@ -8,7 +8,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>mysite03</artifactId>
-	
+
 	<packaging>war</packaging>
 
 	<properties>
@@ -67,6 +67,20 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- common fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+
 		<!-- MariaDB JDBC Driver -->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
@@ -98,6 +112,7 @@
 
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
+		<finalName>mysite03</finalName>
 		<resources>
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
