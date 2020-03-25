@@ -71,8 +71,11 @@ public class UserController {
 		return "redirect:/";
 	}
 
-//	@ExceptionHandler(Exception.class)
-//	public String handleException() {
-//		return "error/exception";
-//	}
+	@RequestMapping(value = "/auth", method = RequestMethod.POST)
+	public void auth() {
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void log() {
+	}
 }
