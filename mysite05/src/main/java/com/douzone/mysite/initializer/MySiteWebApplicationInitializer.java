@@ -47,5 +47,4 @@ public class MySiteWebApplicationInitializer extends AbstractAnnotationConfigDis
 		
 		return dispatcherServlet;
 	}
-	
 }
