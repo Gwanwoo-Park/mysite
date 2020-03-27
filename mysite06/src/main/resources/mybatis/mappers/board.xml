@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<select id="findAll" resultType="boardvo" parameterType="map">
+		<choose>
+			<when test='kwd == "" '>
+				<![CDATA[
+					  select board.no, title, contents, hit, date_format(reg_date,'%Y-%m-%d %h:%i:%s') as regDate, g_no, o_no, depth, user_no, name
+			    	    from board, user
+			  	       where board.user_no = user.no
+					order by g_no desc, o_no desc
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					  select board.no, title, contents, hit, date_format(reg_date,'%Y-%m-%d %h:%i:%s') as regDate, g_no, o_no, depth, user_no, name
+			    	    from board, user
+			  	       where board.user_no = user.no
+			  	         and title like '%${kwd }%'
+					order by g_no desc, o_no desc
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findContents" resultType="boardvo">
+		<![CDATA[
+			select no, user_no as userNo, title, contents, g_no as gNo, o_no as oNo, depth
+			  from board
+			 where no = #{no }
+		]]>
+	</select>
+
+	<select id="find" resultType="boardvo" parameterType="long">
+		<![CDATA[
+			select no, title, contents, hit, reg_date as regDate, g_no as gNo, o_no as oNo, depth, user_no as userNo
+  			  from board 
+ 			 where no = #{no }
+		]]>
+	</select>
+
+	<update id="update" parameterType="long">
+		<![CDATA[
+			update board
+			   set hit = hit + 1
+		     where no = #{no }
+		]]>
+	</update>
+
+	<update id="modify" parameterType="boardvo">
+		<![CDATA[
+			update board 
+			   set title = #{title }, contents = #{contents }
+		   	 where no = #{no }
+		]]>
+	</update>
+
+	<update id="updateParent" parameterType="boardvo">
+		<![CDATA[
+			update board 
+		  	   set o_no = o_no + 1 
+	 		 where g_no = #{gNo } and o_no >= #{oNo }
+		]]>
+
+	</update>
+
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+			insert 
+			  into board
+		    values (null, #{title }, #{contents }, 0, now(), 
+		    	   (select ifnull(max(g_no), 0)
+		  	  		  from board a) + 1, 1, 0, #{no })
+		]]>
+	</insert>
+
+	<insert id="insertReply" parameterType="boardvo">
+		<![CDATA[
+			insert 
+			  into board
+			values (null, #{title }, #{contents }, 0, now(), #{gNo }, #{oNo }, #{depth } + 1, #{no })
+		]]>
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			 delete from board where no = #{no }
+		]]>
+	</delete>
+</mapper>
