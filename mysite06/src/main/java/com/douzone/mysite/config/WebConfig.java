@@ -21,20 +21,17 @@ import com.douzone.security.LogoutInterceptor;
 @Configuration
 @PropertySource("classpath:com/douzone/mysite/config/config.properties")
 public class WebConfig implements WebMvcConfigurer {
-	
 	@Autowired
 	private Environment env;
-
-	// Argument Resolver
+	
+	//Argument Resolver
 	@Bean
 	public HandlerMethodArgumentResolver authUserHandlerMethodArgumentResolver() {
 		return new AuthUserHandlerMethodArgumentResolver();
 	}
-
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(authUserHandlerMethodArgumentResolver());
-		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
 	}
 
 	// Interceptors
@@ -42,27 +39,32 @@ public class WebConfig implements WebMvcConfigurer {
 	public HandlerInterceptor loginInterceptor() {
 		return new LoginInterceptor();
 	}
-
 	@Bean
 	public HandlerInterceptor logoutInterceptor() {
 		return new LogoutInterceptor();
 	}
-
 	@Bean
 	public HandlerInterceptor authInterceptor() {
 		return new AuthInterceptor();
 	}
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(loginInterceptor()).addPathPatterns(env.getProperty("security.auth-url"));
-
-		registry.addInterceptor(logoutInterceptor()).addPathPatterns(env.getProperty("security.logout-url"));
-
-		registry.addInterceptor(authInterceptor()).addPathPatterns("/**").excludePathPatterns(env.getProperty("security.auth-url"))
-				.excludePathPatterns(env.getProperty("security.logout-url")).excludePathPatterns("/assets/**");
+		registry
+			.addInterceptor(loginInterceptor())
+			.addPathPatterns(env.getProperty("security.auth-url"));
+	
+		registry
+			.addInterceptor(logoutInterceptor())
+			.addPathPatterns(env.getProperty("security.logout-url"));
+	
+		registry
+			.addInterceptor(authInterceptor())
+			.addPathPatterns("/**")
+			.excludePathPatterns(env.getProperty("security.auth-url"))
+			.excludePathPatterns(env.getProperty("security.logout-url"))
+			.excludePathPatterns("/assets/**");
 	}
-
+	
 	// Mvc Resources(URL Magic Mapping)
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
