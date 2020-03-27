@@ -1,4 +1,4 @@
-package com.douzone.mysite.config.web;
+package com.douzone.mysite.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@PropertySource("classpath:com/douzone/mysite/config/web/properties/fileupload.properties")
 public class FileUploadConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired

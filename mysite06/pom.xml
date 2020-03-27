@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>mysite06</artifactId>
-	
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -34,12 +34,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
-		<!-- Spring JDBC -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-		</dependency>
 
 		<!-- spring boot devtools: live reload -->
 		<dependency>
@@ -47,19 +41,18 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 
-
 		<!-- spring boot web starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<!-- spring boot aop starter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-		
+
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -73,13 +66,13 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+	
 		<!-- MariaDB JDBC Driver -->
 		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-		</dependency>
-
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		</dependency>		
+				
 		<!-- jstl -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -91,7 +84,7 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
-		
+
 		<!-- common fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -103,7 +96,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
-
+		
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -119,7 +112,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>${artifactId }</finalName>
+		<finalName>${artifactId}</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
@@ -132,7 +125,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.1</version>
 				<configuration>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
 				</configuration>
@@ -146,8 +138,8 @@
 					<username>admin</username>
 					<password>admin</password>
 				</configuration>
-			</plugin>
+			</plugin>			
 		</plugins>
-	</build>
+	</build>				
 	
 </project>
