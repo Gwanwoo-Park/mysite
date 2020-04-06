@@ -43,7 +43,7 @@
 							<td>${listCount-status.index }</td>
 							<td style="text-align:left; padding-left:${20*vo.depth }px">
 								<c:if test="${vo.depth >= 1 }">
-									<img src='/mysite03/assets/images/reply.png'>
+									<img src='/mysite05/assets/images/reply.png'>
 								</c:if> <a
 								href="${pageContext.servletContext.contextPath }/board/view/${vo.no }">${vo.title }</a>
 							</td>
