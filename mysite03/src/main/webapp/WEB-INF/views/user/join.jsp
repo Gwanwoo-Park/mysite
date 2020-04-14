@@ -18,6 +18,7 @@ $(function() {
 		if(email == '') {
 			return;
 		}
+		
 		$.ajax({
 			url: '${pageContext.request.contextPath }/api/user/checkemail?email=' + email,
 			async: true,
@@ -26,7 +27,12 @@ $(function() {
 			data: '',
 			dataType: 'json',
 			success: function(response) {
-				if(response.result == 'exist') {
+				if(response.result == 'fail') {
+					console.error(response.message);
+					return;
+				}
+				
+				if(response.data == true) {
 					alert('존재하는 이메일입니다.');
 					$('#email').val('').focus();
 					return;
@@ -50,18 +56,18 @@ $(function() {
 			<div id="user">
 				<form:form
 					modelAttribute="userVo"
-					id="join-form" 
+					id="join-form"
 					name="joinForm"
 					method="post"
 					action="${pageContext.request.contextPath }/user/join">
 					<label class="block-label" for="name">이름</label>
 					<form:input path="name" />
-					<p style="font-weight:bold; color:#f00; text-align:left; padding-left:0">
-					<spring:hasBindErrors name="userVo">
-						<c:if test='${errors.hasFieldErrors("name") }'>
-							<spring:message code='${errors.getFieldError("name").codes[0] }'/>
-						</c:if>
-					</spring:hasBindErrors>
+					<p style="font-weight: bold; color: #f00; text-align: left; padding-left: 0">
+						<spring:hasBindErrors name="userVo">
+							<c:if test='${errors.hasFieldErrors("name") }'>
+								<spring:message code='${errors.getFieldError("name").codes[0] }'/>
+							</c:if>
+						</spring:hasBindErrors>
 					</p>
 					
 					<label class="block-label" for="email">이메일</label>
