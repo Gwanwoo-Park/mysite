@@ -17,9 +17,11 @@ public class GuestbookRepository {
 	private SqlSession sqlSession;
 	
 	public List<GuestbookVo> findAll() {
-		List<GuestbookVo> list = sqlSession.selectList("guestbook.findAll");
-		
-		return list;
+		return sqlSession.selectList("guestbook.findAll");
+	}
+	
+	public List<GuestbookVo> findAll(Long startNo) {
+		return sqlSession.selectList("guestbook.findAllByNo", startNo);
 	}
 	
 	public void insert(GuestbookVo vo) {
