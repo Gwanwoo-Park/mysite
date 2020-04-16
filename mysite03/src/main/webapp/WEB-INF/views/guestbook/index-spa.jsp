@@ -12,6 +12,31 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-3.4.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+/* jquery plugin */
+(function($) {
+	$.fn.hello = function() {
+		console.log(this.length);
+		console.log("hello #" + this.attr("title"));
+	};
+})(jQuery);
+
+(function($) {
+	$.fn.flash = function() {
+		this.click(function() {
+			var $that = $(this);
+			var isBlink = false;
+			setInterval(function() {
+				$that.css("backgroundColor", isBlink ? "#f00" : "#aaa");
+				isBlink = !isBlink;
+			}, 1000);
+		});
+	};
+})(jQuery);
+
+</script>
+
+<script>
+/* guestbook spa application */
 var startNo = 0;
 var isEnd = false;
 var messageBox = function(title, message, callback) {
@@ -212,6 +237,10 @@ $(function() {
 	
 	// 처음 리스트 가져오기
 	fetchList();
+	
+	// jquery plugin test
+	$(".btn-fetch").hello();
+	$(".btn-fetch").flash();
 });
 </script>
 </head>
@@ -229,14 +258,14 @@ $(function() {
 				</form>
 				
 				<div style='margin: 20px 0 0 0'>
-					<button class='btn-fetch'>다음 가져오기</button>
+					<button class='btn-fetch' title="다음 가져오기">다음 가져오기</button>
 				</div>
 				
 				<ul id="list-guestbook">	
 				</ul>
 				
 				<div style='margin: 20px 0 0 0'>
-					<button class='btn-fetch'>다음 가져오기</button>
+					<button class='btn-fetch' title="다음 가져오기">다음 가져오기</button>
 				</div>
 				
 			</div>
