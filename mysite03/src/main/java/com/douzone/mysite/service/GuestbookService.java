@@ -21,8 +21,12 @@ public class GuestbookService {
 	public boolean deleteMessage( GuestbookVo vo ){
 		return 1 == guestbookRepository.delete( vo );
 	}
+
+	public boolean deleteMessage(Long no, String password) {
+		return 1 == guestbookRepository.delete( new GuestbookVo(no, password));
+	}
 	
-	public boolean writeMessage( GuestbookVo vo ) {
+	public boolean writeMessage(GuestbookVo vo) {
 		int count = guestbookRepository.insert(vo);
 		return count == 1;
 	}

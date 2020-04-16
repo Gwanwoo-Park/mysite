@@ -23,10 +23,10 @@ public class GuestbookRepository {
 	}
 	
 	public int delete( GuestbookVo vo ) {
-		return sqlSession.delete( "guestbook.delete", vo );
+		return sqlSession.delete("guestbook.delete", vo);
 	}
 	
 	public int insert( GuestbookVo vo ) {
-		return sqlSession.insert( "guestbook.insert", vo );
+		return sqlSession.insert("guestbook.insert", vo);
 	}
 }
