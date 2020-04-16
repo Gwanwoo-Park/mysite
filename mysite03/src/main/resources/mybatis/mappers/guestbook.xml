@@ -46,4 +46,15 @@
 		]]>
 	</insert>
 	
+	<insert id="insert2" parameterType="guestbookvo">
+		<![CDATA[
+		 insert 
+		   into guestbook 
+		 values( null, #{name }, #{contents }, #{password }, now() )
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
 </mapper>

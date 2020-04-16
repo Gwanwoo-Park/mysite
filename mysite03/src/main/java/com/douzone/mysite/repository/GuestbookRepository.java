@@ -35,4 +35,8 @@ public class GuestbookRepository {
 		
 		sqlSession.delete("guestbook.delete", map);
 	}
+	
+	public int insert2( GuestbookVo vo ) {
+		return sqlSession.insert( "guestbook.insert2", vo );
+	}
 }
