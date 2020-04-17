@@ -11,35 +11,18 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-3.4.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-/* jquery plugin */
-(function($) {
-	$.fn.hello = function() {
-		console.log(this.length);
-		console.log("hello #" + this.attr("title"));
-	};
-})(jQuery);
-
-(function($) {
-	$.fn.flash = function() {
-		this.click(function() {
-			var $that = $(this);
-			var isBlink = false;
-			setInterval(function() {
-				$that.css("backgroundColor", isBlink ? "#f00" : "#aaa");
-				isBlink = !isBlink;
-			}, 1000);
-		});
-	};
-})(jQuery);
-
-</script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <script>
 /* guestbook spa application */
 var startNo = 0;
 var isEnd = false;
-var messageBox = function(title, message, callback) {
+var listItemTemplate = new EJS({
+	url: "${pageContext.request.contextPath }/assets/js/ejs/list-item-template.ejs"
+});
+var listTemplate = new EJS({
+	url: "${pageContext.request.contextPath }/assets/js/ejs/list-template.ejs"
+});
+var messageBox = function(title, message, callback){
 	$("#dialog-message p").text(message);
 	$("#dialog-message")
 		.attr("title", title)
@@ -47,30 +30,31 @@ var messageBox = function(title, message, callback) {
 			modal: true,
 			buttons: {
 				"확인": function() {
-					$(this).dialog("close");
-				}
+					$(this).dialog( "close" );
+		        }
 			},
 			close: callback
 		});
-};
-var render = function(vo, mode) {
+}
+var render = function(vo, mode){
 	var html = 
 		"<li data-no='" + vo.no + "'>" + 
 		"   <strong>" + vo.name + "</strong>" + 
 		"   <p>" + vo.contents.replace(/\n/gi, "<br>") + "</p>" + 
-		"	<strong></strong>" + 
-		"	<a href='' data-no='" + vo.no + "'>삭제</a>" + 
+		"   <strong></strong>" + 
+		"   <a href='' data-no='" + vo.no + "'>삭제</a>" +
 		"</li>";
 	
-	if(mode) {
+	if(mode){
 		$("#list-guestbook").prepend(html);
 	} else {
 		$("#list-guestbook").append(html);
 	}
-};
-var fetchList = function() {
-	if(isEnd) {
-		return;
+//	$("#list-guestbook")[mode ? "prepend" : "append"](html);
+}
+var fetchList = function(){
+	if(isEnd){
+		return;	
 	}
 	
 	$.ajax({
@@ -79,45 +63,44 @@ var fetchList = function() {
 		type: 'get',
 		dataType: 'json',
 		data: '',
-		success: function(response) {
-			if(response.result != "success") {
+		success: function(response){
+			if(response.result != "success"){
 				console.error(response.message);
 				return;
 			}
 			
 			// detect end
-			if(response.data.length == 0) {
+			if(response.data.length == 0){
 				isEnd = true;
 				$(".btn-fetch").prop("disabled", true);
 				return;
 			}
 			
-			// rendering
-			$.each(response.data, function(index, vo) {
-				render(vo);
-			});
+			// redering
+			// $.each(response.data, function(index, vo){
+			//	render(vo);
+			// });
+			var html = listTemplate.render(response);
+			$("#list-guestbook").append(html);
 			
 			startNo = $('#list-guestbook li').last().data('no') || 0;
 		},
-		error: function(xhr, status, e) {
+		error: function(xhr, status, e){
 			console.error(status + ":" + e);
 		}
-	});
-};
-
-$(function() {
-	// 삭제 다이얼로그 객체 만들기
+	});	
+}
+$(function(){
+	// 삭제 다이알로 객체 만들기
 	var dialogDelete = $("#dialog-delete-form").dialog({
 		autoOpen: false,
 		width: 300,
 		height: 220,
 		modal: true,
 		buttons: {
-			"삭제": function() {
+			"삭제": function(){
 				var no = $("#hidden-no").val();
 				var password = $("#password-delete").val();
-				
-				console.log(no + ":" + password);
 				
 				$.ajax({
 					url: '${pageContext.request.contextPath }/api/guestbook/delete/' + no,
@@ -125,13 +108,13 @@ $(function() {
 					type: 'delete',
 					dataType: 'json',
 					data: 'password=' + password,
-					success: function(response) {
-						if(response.result != "success") {
+					success: function(response){
+						if(response.result != "success"){
 							console.error(response.message);
 							return;
 						}
 						
-						if(response.data != -1) {
+						if(response.data != -1){
 							$("#list-guestbook li[data-no=" + response.data + "]").remove();
 							dialogDelete.dialog('close');
 							return;
@@ -140,16 +123,16 @@ $(function() {
 						// 비밀번호가 틀린경우
 						$("#dialog-delete-form p.validateTips.error").show();
 					},
-					error: function(xhr, status, e) {
+					error: function(xhr, status, e){
 						console.error(status + ":" + e);
 					}
 				});
 			},
-			"취소": function() {
+			"취소": function(){
 				$(this).dialog('close');
 			}
 		},
-		close: function() {
+		close: function(){
 			$("#hidden-no").val("");
 			$("#password-delete").val("");
 			$("#dialog-delete-form p.validateTips.error").hide();
@@ -160,32 +143,32 @@ $(function() {
 	$('.btn-fetch').click(fetchList);
 	
 	// 입력폼 submit 이벤트
-	$('#add-form').submit(function(event) {
+	$('#add-form').submit(function(event){
 		event.preventDefault();
 		
 		var vo = {};
 		vo.name = $("#input-name").val();
-		if(vo.name == '') {			
-			messageBox("방명록 글 남기기", "이름은 필수 항목입니다.", function() {
+		if(vo.name == ''){
+			messageBox("방명록 글 남기기", "이름은 필수 항목 입니다.", function(){
 				$("#input-name").focus();
 			});
-			return;
+			return;	
 		}
 		
 		vo.password = $("#input-password").val();
-		if(vo.password == '') {
-			messageBox("방명록 글 남기기", "비밀번호는 필수 항목입니다.", function() {
+		if(vo.password == ''){
+			messageBox("방명록 글 남기기", "비밀번호는 필수 항목 입니다.", function(){
 				$("#input-password").focus();
 			});
-			return;
+			return;	
 		}
-		
+	
 		vo.contents = $("#tx-content").val();
-		if(vo.contents == '') {
-			messageBox("방명록 글 남기기", "내용은 필수 항목입니다.", function() {
+		if(vo.contents == ''){
+			messageBox("방명록 글 남기기", "내용은 필수 항목 입니다.", function(){
 				$("#tx-content").focus();
 			});
-			return;
+			return;	
 		}
 		
 		$.ajax({
@@ -195,39 +178,40 @@ $(function() {
 			dataType: 'json',
 			contentType: 'application/json',
 			data: JSON.stringify(vo),
-			success: function(response) {
-				if(response.result !=  "success") {
+			success: function(response){
+				if(response.result != "success"){
 					console.error(response.message);
 					return;
 				}
 				
 				// rendering
-				render(response.data, true);
+				// render(response.data, true);
+				var html = listItemTemplate.render(response.data);
+				$("#list-guestbook").prepend(html);
 				
 				// form reset
 				$("#add-form")[0].reset();
 			},
-			error: function(xhr, status, e) {
+			error: function(xhr, status, e){
 				console.error(status + ":" + e);
 			}
 		});
 	});
 	
-	// 창 스크롤 이벤트 
-	$(window).scroll(function() {
+	// 창 스크롤 이벤트
+	$(window).scroll(function(){
 		var $window = $(this);
 		var windowHeight = $window.height();
 		var scrollTop = $window.scrollTop();
 		var documentHeight = $(document).height();
-		
-		if(scrollTop + windowHeight + 10 > documentHeight) {
+		if(scrollTop + windowHeight + 10 > documentHeight){
 			fetchList();
 		}
 	});
 	
 	// Live Event: 존재하지 않는 element의 이벤트 핸들러를 미리 세팅하는 것
 	// delegation(위임, document)
-	$(document).on('click', '#list-guestbook li a', function(event) {
+	$(document).on('click', '#list-guestbook li a', function(event){
 		event.preventDefault();
 		
 		var no = $(this).data('no');
@@ -243,6 +227,25 @@ $(function() {
 	$(".btn-fetch").flash();
 });
 </script>
+<script>
+/* jquery plugin */
+(function($){
+	$.fn.hello = function(){
+		console.log(this.length);
+		console.log("hello #" + this.attr('title'));
+	}
+})(jQuery);
+(function($){
+	$.fn.flash = function(){
+		var $that = $(this);
+		var isBlink = false;
+		setInterval(function(){
+			$that.css("backgroundColor",  isBlink ? "#f00" : "#aaa");
+			isBlink = !isBlink;
+		}, 1000);
+	}
+})(jQuery);
+</script>
 </head>
 <body>
 	<div id="container">
@@ -257,14 +260,14 @@ $(function() {
 					<input type="submit" value="보내기" />
 				</form>
 				
-				<div style='margin: 20px 0 0 0'>
+				<div style='margin:20px 0 0 0'>
 					<button class='btn-fetch' title="다음 가져오기">다음 가져오기</button>
 				</div>
 				
-				<ul id="list-guestbook">	
+				<ul id="list-guestbook">
 				</ul>
 				
-				<div style='margin: 20px 0 0 0'>
+				<div style='margin:20px 0 0 0'>
 					<button class='btn-fetch' title="다음 가져오기">다음 가져오기</button>
 				</div>
 				
@@ -275,13 +278,11 @@ $(function() {
   				<form>
  					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
 					<input type="hidden" id="hidden-no" value="">
-					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
   				</form>
 			</div>
-			
 			<div id="dialog-message" title="" style="display:none">
   				<p></p>
-			</div>
+			</div>						
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="guestbook-ajax"/>
