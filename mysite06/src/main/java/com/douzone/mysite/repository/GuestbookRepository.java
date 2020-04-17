@@ -1,8 +1,6 @@
 package com.douzone.mysite.repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +15,18 @@ public class GuestbookRepository {
 	private SqlSession sqlSession;
 	
 	public List<GuestbookVo> findAll() {
-		List<GuestbookVo> list = sqlSession.selectList("guestbook.findAll");
-		
-		return list;
-	}
-	
-	public void insert(GuestbookVo vo) {
-		sqlSession.insert("guestbook.insert", vo);
+		return sqlSession.selectList( "guestbook.findAll" );
 	}
 
-	public void delete(Long no, String password) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("no", no);
-		map.put("password", password);
-		
-		sqlSession.delete("guestbook.delete", map);
+	public List<GuestbookVo> findAll(Long startNo) {
+		return sqlSession.selectList( "guestbook.findAllByNo", startNo );
+	}
+	
+	public int delete( GuestbookVo vo ) {
+		return sqlSession.delete("guestbook.delete", vo);
+	}
+	
+	public int insert( GuestbookVo vo ) {
+		return sqlSession.insert("guestbook.insert", vo);
 	}
 }
