@@ -13,18 +13,25 @@ public class GuestbookService {
 	
 	@Autowired
 	private GuestbookRepository guestbookRepository;
-
-	public List<GuestbookVo> findAll() {
-		List<GuestbookVo> list = guestbookRepository.findAll();
-		
-		return list;
+	
+	public List<GuestbookVo> getMessageList() {
+		return guestbookRepository.findAll();
+	}
+	
+	public boolean deleteMessage( GuestbookVo vo ){
+		return 1 == guestbookRepository.delete( vo );
 	}
 
-	public void insert(GuestbookVo vo) {
-		guestbookRepository.insert(vo);
+	public boolean deleteMessage(Long no, String password) {
+		return 1 == guestbookRepository.delete( new GuestbookVo(no, password));
+	}
+	
+	public boolean writeMessage(GuestbookVo vo) {
+		int count = guestbookRepository.insert(vo);
+		return count == 1;
 	}
 
-	public void delete(Long no, String password) {
-		guestbookRepository.delete(no, password);
+	public List<GuestbookVo> getMessageList(Long startNo) {
+		return guestbookRepository.findAll(startNo);
 	}
 }
