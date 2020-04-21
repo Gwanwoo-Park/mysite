@@ -282,7 +282,7 @@ $(function(){
 			</div>
 			<div id="dialog-message" title="" style="display:none">
   				<p></p>
-			</div>						
+			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
 			<c:param name="menu" value="guestbook-ajax"/>
